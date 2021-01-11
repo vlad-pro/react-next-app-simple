@@ -2,11 +2,16 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
-export default () => {
-  const notes = new Array(15)
-    .fill(1)
-    .map((e, i) => ({ id: i, title: `This is my note ${i}` }));
+export default function Page({ notes }) {
+  // const notes = new Array(15)
+  //   .fill(1)
+  //   .map((e, i) => ({ id: i, title: `This is my note ${i}` }));
+  // That's on the server side rigth now.
+
+  const router = useRouter();
+  const id = 2;
 
   return (
     <div sx={{ variant: "containers.page" }}>
@@ -34,9 +39,23 @@ export default () => {
       </div>
 
       <p>Using router</p>
-      <button sx={{color: "main"}} onClick={(e) => router.push("/notes/[id]", `/notes/${id}`)}>
+      <button
+        sx={{ color: "main" }}
+        onClick={(e) => router.push("/notes/[id]", `/notes/${id}`)}
+      >
         To Note 2
-      </button>  
+      </button>
     </div>
   );
-};
+}
+
+export async function getServerSideProps() {
+  const res = await fetch(`http://localhost:3000/api/note/`);
+  // either full path, from env (prod, dev, stage)
+  // or from props in getServerSideProps(props)
+  const { data } = await res.json();
+  // so no data:data in the above
+  return {
+    props: { notes: data },
+  };
+}
