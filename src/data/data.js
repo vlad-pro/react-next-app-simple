@@ -3,7 +3,8 @@
 const notes = new Array(15)
   .fill(1)
   .map((_, i) => ({
-    id: Date.now() + i,
+    // not working properly with Date.now() id
+    id: i,
     title: `Note ${i}`
   }))
 
