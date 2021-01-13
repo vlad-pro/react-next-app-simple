@@ -5,7 +5,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 
-export default function Home() {
+export default function Home({content}) {
   return (
     <div className={styles.container}>
       <Head>
@@ -23,7 +23,7 @@ export default function Home() {
           }}
         >
           <h1 sx={{ fontSize: 8, my: 0 }}>
-            This is a really dope note taking app.
+            {content.title}
           </h1>
         </div>
       </div>
@@ -82,10 +82,13 @@ export default function Home() {
     </div>
   );
 }
-export async function getStaticProps(context) {
-  console.log(context)
+export function getStaticProps() {
+  // simulating CMS
   return {
-    props: {}
-  }
+    props: {
+      content: {
+        title: "Look at my note app tho",
+      },
+    },
+  };
 }
-
