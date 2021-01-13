@@ -4,15 +4,21 @@ import { jsx } from "theme-ui";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 
-export default function Home({content}) {
+const BrowserComponent = dynamic(
+  () => import("../src/components/browserComponent"),
+  { ssr: false, loading: () => <p>...</p> }
+);
+
+export default function Home({ content }) {
   return (
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <BrowserComponent />
       <div sx={{ height: `calc(100vh - 60px)` }}>
         <div
           sx={{
@@ -22,9 +28,7 @@ export default function Home({content}) {
             height: "100%",
           }}
         >
-          <h1 sx={{ fontSize: 8, my: 0 }}>
-            {content.title}
-          </h1>
+          <h1 sx={{ fontSize: 8, my: 0 }}>{content.title}</h1>
         </div>
       </div>
 
